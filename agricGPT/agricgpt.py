@@ -32,6 +32,7 @@ DATASET_SIZE = 5000  # Pilot run size (set to None for full dataset)
 # Hugging Face Hub settings
 HF_MODEL_NAME = "agricgpt-phi2"  # Change this to your desired model name
 PUSH_TO_HUB = True  # Set to False to skip pushing
+SAVE_STEPS = 100  # Push checkpoint every N steps
 
 # LoRA hyperparameters
 LORA_R = 16
@@ -54,6 +55,12 @@ MAX_SEQ_LENGTH = 512
 # Check for GPU
 if not torch.cuda.is_available():
     raise ValueError("GPU required for training. Please enable CUDA.")
+
+# Login to Hugging Face early (for checkpoint pushing during training)
+if PUSH_TO_HUB:
+    from huggingface_hub import login
+    print("Logging in to Hugging Face Hub...")
+    login()  # Will prompt for token or use cached credentials
 
 # Set seeds for reproducibility
 torch.manual_seed(42)
@@ -165,7 +172,14 @@ training_args = TrainingArguments(
     optim="paged_adamw_32bit",
     warmup_ratio=0.03,
     lr_scheduler_type="cosine",
-    save_strategy="epoch",
+    # Checkpoint saving & pushing
+    save_strategy="steps",
+    save_steps=SAVE_STEPS,
+    save_total_limit=3,  # Keep only last 3 checkpoints locally
+    # Hugging Face Hub integration
+    push_to_hub=PUSH_TO_HUB,
+    hub_model_id=HF_MODEL_NAME if PUSH_TO_HUB else None,
+    hub_strategy="every_save",  # Push at every checkpoint
     report_to="none",
     seed=42
 )
@@ -251,15 +265,10 @@ if __name__ == "__main__":
     trainer.save_model(f"{OUTPUT_DIR}/final_model")
     tokenizer.save_pretrained(f"{OUTPUT_DIR}/final_model")
     
-    # Push to Hugging Face Hub
+    # Final push to Hugging Face Hub (if not already pushed during training)
     if PUSH_TO_HUB:
-        from huggingface_hub import login
-        print("\nLogging in to Hugging Face Hub...")
-        login()  # Will prompt for token or use cached credentials
-        
-        print(f"Pushing model to Hugging Face as '{HF_MODEL_NAME}'...")
-        model.push_to_hub(HF_MODEL_NAME)
-        tokenizer.push_to_hub(HF_MODEL_NAME)
+        print(f"\nPushing final model to Hugging Face as '{HF_MODEL_NAME}'...")
+        trainer.push_to_hub()
         print(f"Model available at: https://huggingface.co/YOUR_USERNAME/{HF_MODEL_NAME}")
     
     print("Done!")
