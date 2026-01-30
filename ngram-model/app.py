@@ -154,7 +154,9 @@ def generate_sentence(n_gram_counts, n_plus1_gram_counts, vocabulary, k=1.0, max
 @st.cache_data
 def load_model():
     """Load and prepare the n-gram model."""
-    DATA_DIR = "data"
+    # Get the directory where the script is located (works on Streamlit Cloud)
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    DATA_DIR = os.path.join(SCRIPT_DIR, "data")
     TRAIN_FILE = os.path.join(DATA_DIR, "train.twi")
     MIN_FREQ = 2
     
