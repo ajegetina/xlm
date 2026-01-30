@@ -1,7 +1,7 @@
 PROSIT 1: Building and Adapting Language Models
 **Ankora AI Research Lab | Graduate NLP Internship Deliverable**
 
-This repository contains the dual-task implementation for **Ankora AI**, focusing on the development of specialized language models. [cite_start]The project bridges the gap between traditional statistical methods for low-resource settings and modern parameter-efficient fine-tuning (PEFT) for domain-specific expertise[cite: 3, 5, 58].
+This repository contains the dual-task implementation for **Ankora AI**, focusing on the development of specialized language models. The project bridges the gap between traditional statistical methods for low-resource settings and modern parameter-efficient fine-tuning (PEFT) for domain-specific expertise.
 
 ---
 
@@ -9,8 +9,8 @@ This repository contains the dual-task implementation for **Ankora AI**, focusin
 
 ### 🌍 Task 1: Low-Resource African Language Model (Section B)
 Development of a specialized language model for an African language with limited textual data. 
-* **Approach:** Statistical N-gram Modeling[cite: 7].
-* **Rationale:** N-grams are preferred over neural models in extremely low-resource contexts to avoid overfitting and to capture local linguistic patterns effectively without massive training corpora[cite: 35].
+* **Approach:** Statistical N-gram Modeling.
+* **Rationale:** N-grams are preferred over neural models in extremely low-resource contexts to avoid overfitting and to capture local linguistic patterns effectively without massive training corpora.
 * **Key Metrics:** Perplexity and Smoothing effectiveness.
 
 ### 🌾 Task 2: Agricultural Domain Adaptation (Section C)
