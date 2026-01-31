@@ -7,13 +7,13 @@ This repository contains the dual-task implementation for **Ankora AI**, focusin
 
 ## 🚀 Project Components
 
-### 🌍 Task 1: Low-Resource African Language Model (Section B)
+### 🌍 Task 1: Low-Resource African Language Model
 Development of a specialized language model for an African language with limited textual data. 
 * **Approach:** Statistical N-gram Modeling.
 * **Rationale:** N-grams are preferred over neural models in extremely low-resource contexts to avoid overfitting and to capture local linguistic patterns effectively without massive training corpora.
 * **Key Metrics:** Perplexity and Smoothing effectiveness.
 
-### 🌾 Task 2: Agricultural Domain Adaptation (Section C)
+### 🌾 Task 2: Agricultural Domain Adaptation
 Fine-tuning an English-based Large Language Model (LLM) to act as a domain expert for the agriculture sector.
 * **Base Model:** `microsoft/phi-2` (2.7B).
 * **Dataset:** `AI4Agr/CROP-dataset` (~210k agricultural instruction-response pairs).
